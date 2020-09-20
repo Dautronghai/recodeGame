@@ -7,30 +7,71 @@ class game{
 		this.nextCanvas = null;
 		this.nextContext = null;
 
-		this.init();
+		this.init();		
+		this.eventListener();
+		this.loop();
+		this.startGame();
+	}
+	eventListener(){
+		document.addEventListener('keydown', (event)=>{
+			switch(event.key) {
+				case 'ArrowUp':
+					console.log('up');
+					break;
+				case 'ArrowDown':
+					console.log('down');
+					break;
+				case 'ArrowLeft':
+					console.log('Left');
+					this.block.moveLeft();									
+					break;
+				case 'ArrowRight':
+					this.block.moveRight();
+					console.log('Right');
+					break;
+			};
+		} );
 	}
 	init(){
 		//create canvas main screen
 		this.canvas = document.createElement('canvas');
-		this.canvas.width = 200;
-		this.canvas.height = 400;
+		this.canvas.width = _WIDTH;
+		this.canvas.height = _HEIGHT;
 		this.context = this.canvas.getContext('2d');
 		document.getElementById('mainScreeen').appendChild(this.canvas);
 
 		//create canvas next screen
 		this.nextCanvas = document.createElement('canvas');
-		this.nextCanvas.width = 92;
-		this.nextCanvas.height = 75;
+		this.nextCanvas.width = _NEXTWIDTH;
+		this.nextCanvas.height = _NEXTHEIGHT;
 		this.nextContext = this.nextCanvas.getContext('2d');
 		document.getElementById('nextScreen').appendChild(this.nextCanvas);
 
-		this.context.beginPath();
-		this.context.strokeStyle = 'red';
-		this.context.rect(0,0,20,20);
-		this.context.stroke();
+		this.board = new board(this);
+		this.board.drawBackground();
 
-		this.context.fillStyle = 'red';
-		this.context.fillRect(2, 2, 16, 16);
+		this.block = new block(this, 3, 3, _colorBl);
+		this.block.drawMainScreen();
+		
 	}
+	startGame(){
+		return setInterval(()=>{
+			this.block.fall();			
+		}, 1000);
+	}
+	clearScreen(){
+		this.context.clearRect(0, 0, _WIDTH, _HEIGHT);
+		this.board.drawBackground();
+	}
+	draw(){
+		this.clearScreen();		
+		//this.block.drawMainScreen();		
+	}
+	loop(){
+		console.log('loop');
+		this.draw();
+		setTimeout(()=>this.loop(), 30);
+	}
+
 }
 var g = new game();
