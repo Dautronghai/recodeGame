@@ -1,6 +1,6 @@
 class block{
 	constructor(game, col, row, color){
-		console.log('khoi block');		
+		//console.log('khoi block');		
 		this.game = game;
 		this.col = col;
 		this.row = row;
@@ -28,17 +28,54 @@ class block{
 		this.game.nextContext.fillStyle = this.color;
 		this.game.nextContext.fillRect(_x + 2, _y + 2, _NEXTSIZE - 4, _NEXTSIZE - 4);	
 	}
+	//handling block can move left;
+	hitLeft(){
+		return this.col === 0;// return true neu coll = 0;
+	}
+	canMoveLeft(){
+		if(!this.hitLeft() && this.game.board.emptyCell(this.col - 1, this.row)){
+			return true;
+		}else{
+			return false;
+		}
+	}
 	moveLeft(){
-		this.col--;
-		this.drawMainScreen();		
+		if(this.canMoveLeft()){
+				this.col--;
+			}		
+	}
+	//handling block can move right
+	hitRight(){
+		return this.col === _COLS - 1;
+	}
+	canMoveRight(){
+		if(!this.hitRight() && this.game.board.emptyCell(this.col+1,this.row)){
+			return true;
+		}else {
+			return false;
+		}
 	}
 	moveRight(){
-		this.col++;
-		this.drawMainScreen();		
+		if(this.canMoveRight()){
+			this.col++;		
+		}
+	}
+	// handling block can fall
+	hitBottom(){
+		return this.row === _ROWS - 1;// return ve true neu row == rows
+	}
+	canMoveDown(){
+		if(!this.hitBottom() && this.game.board.emptyCell(this.col, this.row + 1)){
+			return true;
+		}else{ 
+			return false;
+		}
 	}
 	fall(){
-		this.row+=1;
-		this.drawMainScreen();		
+		if(this.canMoveDown()){
+				this.row++;
+			}
+		
 	}
 		
 }

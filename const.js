@@ -14,3 +14,36 @@ const _ = null;
 const x = "x";
 const _colorBr = 'grey';
 const _colorBl = 'black';
+
+const _BaseBrick = [
+					[
+						[x,x,x,x]
+					],
+					[
+						[x,x],
+						[x,x]
+					],
+					[
+						[x,x,x],
+						[_,_,x]
+					],
+					[
+						[_,_,x],
+						[x,x,x]
+					],
+					[
+						[x,_],
+						[x,x],
+						[_,x]
+					],
+					[
+						[_,x],
+						[x,x],
+						[x,_]
+					],
+					[
+						[x,x,x],
+						[_,x,_]
+					]
+				];
+

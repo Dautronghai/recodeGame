@@ -31,7 +31,17 @@ class board{
 			[_,_,_,_,_,_]
 		];
 	}
-	drawBackground(){
+	resetNextData(){
+		for(let r = 0; r< this.nextData.length;r++){
+			for(let c = 0; c < this.nextData[0].length;c++){
+				this.nextData[r][c] = _;
+			}
+		}
+	}
+	emptyCell(c, r){
+		return this.data[r][c] === _;// tra ve true neu gia tri tai cot c va dong r == null
+	}
+	drawBackground(){		
 		this.drawMainScreen();
 		this.drawNextScreen();
 	}
@@ -56,6 +66,24 @@ class board{
 				}
 				let bl = new block(this.game, c, r, cl);
 				bl.drawNextScreen();				
+			}
+		}
+	}
+	checkFullRow(r){
+		let isFull = true;
+		for(let c = 0; c < this.data[r].length; c++){
+			if(this.data[r][c] === _){
+				isFull = false;
+				break;
+			}
+		}
+		return isFull;
+	}
+	updateBoard(){
+		for(let r = 0; r < _ROWS; r++){
+			if(this.checkFullRow(r)){
+				this.data.splice(r,1);
+				this.data.unshift([_,_,_,_,_,_,_,_,_,_]);
 			}
 		}
 	}

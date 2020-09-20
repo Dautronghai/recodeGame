@@ -10,27 +10,32 @@ class game{
 		this.init();		
 		this.eventListener();
 		this.loop();
-		this.startGame();
+		//this.startGame();		
 	}
 	eventListener(){
 		document.addEventListener('keydown', (event)=>{
 			switch(event.key) {
 				case 'ArrowUp':
-					console.log('up');
+					this.brick.rotateBrick();
 					break;
 				case 'ArrowDown':
-					console.log('down');
+				this.brick.down();
+					//console.log('down');
 					break;
 				case 'ArrowLeft':
-					console.log('Left');
-					this.block.moveLeft();									
+					this.brick.moveLeft();
+					//this.block.moveLeft();									
 					break;
 				case 'ArrowRight':
-					this.block.moveRight();
-					console.log('Right');
+					this.brick.moveRight();
+					//this.block.moveRight();
+					//console.log('Right');
 					break;
 			};
 		} );
+		document.getElementById('btn_start').addEventListener('click',()=>{
+			this.startGame();
+		});
 	}
 	init(){
 		//create canvas main screen
@@ -50,14 +55,26 @@ class game{
 		this.board = new board(this);
 		this.board.drawBackground();
 
-		this.block = new block(this, 3, 3, _colorBl);
-		this.block.drawMainScreen();
-		
+		//this.block = new block(this, 3, 3, _colorBl);
+		//this.block.drawMainScreen();
+
+		this.brick = new brick(this,3,0);		
+		this.brick.drawBrickMainScreen();
+		this.nextBrick = new brick(this,3,0);
+		this.nextBrick.drawBrickToNextScreen();
+	}
+	createNextBrick(){
+		this.nextBrick = new brick(this,3,0);
+		this.nextBrick.drawBrickToNextScreen();
+	}
+	startNextBrick(){
+		this.brick = this.nextBrick;
 	}
 	startGame(){
 		return setInterval(()=>{
-			this.block.fall();			
-		}, 1000);
+			//this.block.fall();	
+			this.brick.fall();		
+		}, 500);
 	}
 	clearScreen(){
 		this.context.clearRect(0, 0, _WIDTH, _HEIGHT);
@@ -66,9 +83,10 @@ class game{
 	draw(){
 		this.clearScreen();		
 		//this.block.drawMainScreen();		
+		this.brick.drawBrickMainScreen();
 	}
 	loop(){
-		console.log('loop');
+		//console.log('loop');
 		this.draw();
 		setTimeout(()=>this.loop(), 30);
 	}
