@@ -30,6 +30,8 @@ class board{
 			[_,_,_,_,_,_],
 			[_,_,_,_,_,_]
 		];
+		this.rowDestroy = 0;
+		this.countSpeed = 0;
 	}
 	resetNextData(){
 		for(let r = 0; r< this.nextData.length;r++){
@@ -79,12 +81,35 @@ class board{
 		}
 		return isFull;
 	}
+	checkEndGame(){
+		let endGame = false;
+		for(let c =0; c < this.data[0].length; c++){
+			if(this.data[0][c] === x){
+				endGame = true;
+				break;
+			}
+		}
+		return endGame;
+	}
 	updateBoard(){
 		for(let r = 0; r < _ROWS; r++){
 			if(this.checkFullRow(r)){
 				this.data.splice(r,1);
 				this.data.unshift([_,_,_,_,_,_,_,_,_,_]);
+				this.rowDestroy+=1;
+				this.countSpeed+=1;
 			}
 		}
+		if(this.checkEndGame()){
+			clearInterval(this.game.status);
+		}
+		if(this.countSpeed == 10){
+			this.game.speed -= 100;
+			this.countSpeed = 0;
+			clearInterval(this.game.status);
+			this.game.status = this.game.startGame();
+		}
+		document.getElementById('txt_level').value = Math.floor((1000-this.game.speed)/100);
+		document.getElementById('txt_score').value = this.rowDestroy;
 	}
 }

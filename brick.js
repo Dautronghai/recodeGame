@@ -52,7 +52,7 @@ class brick{
 			_newBrick.push(_r);
 		}
 		let oldCol = this.col;
-		console.log(_newBrick[0].length);
+		
 		if((this.col + _newBrick[0].length) > _COLS - 1){
 			this.col = _COLS - _newBrick[0].length;
 		}

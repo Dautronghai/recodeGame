@@ -7,37 +7,58 @@ class game{
 		this.nextCanvas = null;
 		this.nextContext = null;
 
+		this.btnStart = null;	
+		this.status = null;	
+		this.speed = 1000;
 		this.init();		
 		this.eventListener();
 		this.loop();
 		//this.startGame();		
 	}
 	eventListener(){
-		document.addEventListener('keydown', (event)=>{
-			switch(event.key) {
-				case 'ArrowUp':
-					this.brick.rotateBrick();
-					break;
-				case 'ArrowDown':
-				this.brick.down();
-					//console.log('down');
-					break;
-				case 'ArrowLeft':
-					this.brick.moveLeft();
-					//this.block.moveLeft();									
-					break;
-				case 'ArrowRight':
-					this.brick.moveRight();
-					//this.block.moveRight();
-					//console.log('Right');
-					break;
-			};
+		document.addEventListener('keydown', (event)=>{					
+			if(this.status != null){
+							switch(event.key) {
+								case 'ArrowUp':
+									this.brick.rotateBrick();
+									break;
+								case 'ArrowDown':
+								this.brick.down();
+									//console.log('down');
+									break;
+								case 'ArrowLeft':
+									this.brick.moveLeft();
+									//this.block.moveLeft();									
+									break;
+								case 'ArrowRight':
+									this.brick.moveRight();
+									//this.block.moveRight();
+									//console.log('Right');
+									break;
+							};
+				}
 		} );
-		document.getElementById('btn_start').addEventListener('click',()=>{
-			this.startGame();
+		this.btnStart.addEventListener('click', (event)=>{
+			let status = event.srcElement.attributes.status.value;
+			switch (status) {
+				case 'start':
+					this.status = this.startGame();
+					this.btnStart.attributes.status.value = 'stop';
+					this.btnStart.value = "STOP";
+					break;
+				case 'stop':
+					clearInterval(this.status);
+					this.status = null;
+					this.btnStart.attributes.status.value = 'start';
+					this.btnStart.value = "START";
+					// statements_def
+					break;
+			}
 		});
+		
 	}
 	init(){
+		this.btnStart = document.getElementById('btn_start');
 		//create canvas main screen
 		this.canvas = document.createElement('canvas');
 		this.canvas.width = _WIDTH;
@@ -74,7 +95,7 @@ class game{
 		return setInterval(()=>{
 			//this.block.fall();	
 			this.brick.fall();		
-		}, 500);
+		}, this.speed);
 	}
 	clearScreen(){
 		this.context.clearRect(0, 0, _WIDTH, _HEIGHT);
